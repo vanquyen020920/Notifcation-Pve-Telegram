@@ -1,0 +1,28 @@
+Step1:
+nano /usr/local/bin/backup-notify.sh
+Step2:
+chmod +x /usr/local/bin/backup-notify.sh
+Step3:
+sudo nano /etc/systemd/system/backup-notify.service
+[Unit]
+Description=Proxmox Backup Notification Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/backup-notify.sh
+Restart=always
+User=root
+WorkingDirectory=/usr/local/bin
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl daemon-reload
+sudo systemctl enable backup-notify.service
+sudo systemctl start backup-notify.service
+sudo systemctl status backup-notify.service
+
